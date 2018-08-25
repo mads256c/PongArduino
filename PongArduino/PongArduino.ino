@@ -342,23 +342,28 @@ void flashScreen()
 //Updates the ball (physics and score)
 void updateBall()
 {
+	//Bounce the ball from the top
 	if (ballYPos == 7)
 		ballUp = false;
+	//Bounce the ball from the bottom
 	else if (ballYPos == 0)
 		ballUp = true;
+	//Bounce the ball from the right
 	if (ballXPos == 7)
 		ballRight = false;
+	//Bounce the ball from the left
 	else if (ballXPos == 0)
 		ballRight = true;
+	//Check if the paddle is in the way. If it is bounce the ball, if its not give point to the other player.
 	if (!ballRight && ballXPos <= 1 && paddle1Pos <= ballYPos && paddle1Pos + PADDLE_LEN >= ballYPos) ballRight = true;
-	else if (ballXPos == 0) { score1++; displayScore(); resetBall(); }
+	else if (ballXPos == 0) { score1++; displayScore(); resetBall(); return; }
 	if (ballRight && ballXPos >= 6 && paddle2Pos <= ballYPos && paddle2Pos + PADDLE_LEN >= ballYPos) ballRight = false;
-	else if (ballXPos == 7) { score2++; displayScore(); resetBall(); }
+	else if (ballXPos == 7) { score2++; displayScore(); resetBall(); return; }
 
 	//Serial.println(paddle1Pos);
 	//Serial.println(ballYPos);
 
-
+	//Update the balls position based on the direction.
 	if (ballUp) ballYPos++;
 	else if (!ballUp) ballYPos--;
 	if (ballRight) ballXPos++;
@@ -393,9 +398,7 @@ void setup() {
 	DDRD |= B11111111;
 	DDRB |= B00111111;
 
-	digitalWrite(LATCH_PIN, LOW);
-	shiftOut(DATA_PIN, CLOCK_PIN, MSBFIRST, 0);
-	digitalWrite(LATCH_PIN, HIGH);
+	applyShift(LSBFIRST);
 
 	resetScreen();
 
