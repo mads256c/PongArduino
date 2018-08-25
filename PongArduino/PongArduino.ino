@@ -325,8 +325,6 @@ void updateBall()
 	if (ballRight && ballXPos >= 6 && paddle2Pos <= ballYPos && paddle2Pos + PADDLE_LEN >= ballYPos) ballRight = false;
 	else if (ballXPos == 7) { score2++; displayScore(); resetBall(); return; }
 
-	//Serial.println(paddle1Pos);
-	//Serial.println(ballYPos);
 
 	//Update the balls position based on the direction.
 	if (ballUp) ballYPos++;
@@ -403,14 +401,10 @@ void loop() {
 	if (millis() - resetTimer < RESET_DELAY)
 		return;
 
-		
-
 	if (millis() - ballTimer > BALL_SPEED)
 	{
 		updateBall();
 		ballTimer = millis();
 	}
-
-
 
 }
