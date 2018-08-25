@@ -8,7 +8,6 @@
 #define CLOCK_PIN 12
 #define DATA_PIN 11
 
-#define DELAY 100
 #define BALL_SPEED 100
 #define PADDLE_SPEED 50
 
@@ -132,7 +131,7 @@ uint8_t paddle2Pos = 0;
 bool ballUp = false, ballRight = false;
 uint8_t ballXPos = 4, ballYPos = 4;
 
-int pattern = 0;
+uint8_t pattern = 0;
 
 void applyShift()
 {
@@ -252,7 +251,7 @@ void resetBall()
 
 void drawPaddle1()
 {
-	pattern |= (1 << 0);
+	pattern = (1 << 0);
 
 	for (uint8_t i = 0; i < PADDLE_LEN; i++)
 	{
@@ -262,7 +261,7 @@ void drawPaddle1()
 
 void drawPaddle2()
 {
-	pattern |= (1 << 7);
+	pattern = (1 << 7);
 
 	for (uint8_t i = 0; i < PADDLE_LEN; i++)
 	{
