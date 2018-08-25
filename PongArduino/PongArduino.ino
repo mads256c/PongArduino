@@ -65,6 +65,38 @@ void drawBall()
 	digitalWrite(ballYPos + 2, LOW);
 }
 
+void flashScreen()
+{
+	ballUp = false;
+	ballRight = false;
+	ballXPos = 4;
+	ballYPos = 4;
+
+	for (int i = 0; i < 4; ++i)
+	{
+		pattern = 255;
+		applyShift();
+
+		for (int j = 0; j < 8; ++j)
+		{
+			digitalWrite(j + 2, LOW);
+		}
+
+		delay(100);
+
+		pattern = 0;
+		applyShift();
+
+		for (int j = 0; j < 8; ++j)
+		{
+			digitalWrite(j + 2, HIGH);
+		}
+
+		delay(100);
+	}
+
+}
+
 void updateBall()
 {
 	if (ballYPos == 7)
@@ -75,8 +107,10 @@ void updateBall()
 		ballRight = false;
 	else if (ballXPos == 0)
 		ballRight = true;
-	if (ballXPos == 1 && paddle1Pos <= ballYPos && paddle1Pos + PADDLE_LEN >= ballYPos) ballRight = true;
-	if (ballXPos == 6 && paddle2Pos <= ballYPos && paddle2Pos + PADDLE_LEN >= ballYPos) ballRight = false;
+	if (!ballRight && ballXPos <= 1 && paddle1Pos <= ballYPos && paddle1Pos + PADDLE_LEN >= ballYPos) ballRight = true;
+	else if (ballXPos == 0) flashScreen();
+	if (ballRight && ballXPos >= 6 && paddle2Pos <= ballYPos && paddle2Pos + PADDLE_LEN >= ballYPos) ballRight = false;
+	else if (ballXPos == 7) flashScreen();
 
 	//Serial.println(paddle1Pos);
 	//Serial.println(ballYPos);
