@@ -4,14 +4,19 @@
  Author:	Mads
 */
 
+//Defines the pins we use on the shift register.
 #define LATCH_PIN 13
 #define CLOCK_PIN 12
 #define DATA_PIN 11
 
+//Ball and paddle speed are msecs. per update.
 #define BALL_SPEED 100
 #define PADDLE_SPEED 50
 
+//The length of the paddles.
 #define PADDLE_LEN 3
+
+#pragma region
 
 const PROGMEM bool Dash[] = { 0, 0, 0, 0, 0, 0, 0, 0,
 							  0, 0, 0, 0, 0, 0, 0, 0,
@@ -112,6 +117,7 @@ const PROGMEM bool Nine[] = { 0, 0, 0, 0, 0, 0, 0, 0,
 							  0, 0, 1, 1, 1, 0, 0, 0,
 							  0, 0, 0, 0, 0, 0, 0, 0 };
 
+//This is used to debug certain stuff. If you see a cross on the led matrix; something is wrong.
 const PROGMEM bool Cross[] = {0, 0, 0, 0, 0, 0, 0, 0,
 							  0, 1, 0, 0, 0, 0, 1, 0,
 							  0, 0, 1, 0, 0, 1, 0, 0,
@@ -121,6 +127,7 @@ const PROGMEM bool Cross[] = {0, 0, 0, 0, 0, 0, 0, 0,
 							  0, 1, 0, 0, 0, 0, 1, 0,
 							  0, 0, 0, 0, 0, 0, 0, 0 };
 
+#pragma endregion Bitmap definitions
 
 uint8_t score1 = 0;
 uint8_t score2 = 0;
@@ -133,6 +140,7 @@ uint8_t ballXPos = 4, ballYPos = 4;
 
 uint8_t pattern = 0;
 
+//Shifts out pattern.
 void applyShift()
 {
 	digitalWrite(LATCH_PIN, LOW);
@@ -140,6 +148,7 @@ void applyShift()
 	digitalWrite(LATCH_PIN, HIGH);
 }
 
+//Resets the screen.
 void resetScreen()
 {
 	pattern = 0;
@@ -150,6 +159,7 @@ void resetScreen()
 	}
 }
 
+//Draws a const PROGMEM array.
 void drawArray(const bool* array)
 {
 	
@@ -158,7 +168,7 @@ void drawArray(const bool* array)
 		resetScreen();
 		for (uint8_t y = 0; y < 8; ++y)
 		{
-			bool b = pgm_read_byte_near(array + 8 * y + x );
+			const bool b = pgm_read_byte_near(array + 8 * y + x );
 
 			//bool b = array[8 * y + x];
 			//Serial.print(b);
@@ -172,6 +182,7 @@ void drawArray(const bool* array)
 	}
 }
 
+//Int literal to led matrix array.
 const bool* numberToArray(const uint8_t number)
 {
 	switch (number)
@@ -187,11 +198,12 @@ const bool* numberToArray(const uint8_t number)
 	case 8: return Eight;
 	case 9: return Nine;
 
-	default: return Cross;
+	default: return Cross; //Invalid
 	}
 
 }
 
+//Counts down from 3.
 void countDown()
 {
 	for (uint8_t i = 3; i > 0; --i)
@@ -204,6 +216,7 @@ void countDown()
 	}
 }
 
+//Displays the score.
 void displayScore()
 {
 
@@ -240,6 +253,7 @@ void displayScore()
 	
 }
 
+//Resets the ball
 void resetBall()
 {
 	ballXPos = random(3, 5);
@@ -249,7 +263,7 @@ void resetBall()
 }
 
 
-
+//Draws the first paddle.
 void drawPaddle1()
 {
 	pattern = (1 << 0);
@@ -260,6 +274,7 @@ void drawPaddle1()
 	}
 }
 
+//Draws the second paddle.
 void drawPaddle2()
 {
 	pattern = (1 << 7);
@@ -270,12 +285,14 @@ void drawPaddle2()
 	}
 }
 
+//Draws the ball.
 void drawBall()
 {
 	pattern |= (1 << ballXPos);
 	digitalWrite(ballYPos + 2, LOW);
 }
 
+//Flashes the screen. Currently not used.
 void flashScreen()
 {
 	resetBall();
@@ -305,6 +322,7 @@ void flashScreen()
 
 }
 
+//Updates the ball (physics and score)
 void updateBall()
 {
 	if (ballYPos == 7)
@@ -330,6 +348,7 @@ void updateBall()
 	else if (!ballRight) ballXPos--;
 }
 
+//Updates the paddles.
 void updatePaddles()
 {
 
