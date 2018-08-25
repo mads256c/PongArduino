@@ -144,14 +144,7 @@ uint8_t ballXPos = 4, ballYPos = 4;
 uint8_t pattern = 0;
 
 //Shifts out pattern.
-void applyShift()
-{
-	digitalWrite(LATCH_PIN, LOW);
-	shiftOut(DATA_PIN, CLOCK_PIN, MSBFIRST, pattern);
-	digitalWrite(LATCH_PIN, HIGH);
-}
-
-void applyShift(const uint8_t bitOrder)
+void applyShift(const uint8_t bitOrder = MSBFIRST)
 {
 	digitalWrite(LATCH_PIN, LOW);
 	shiftOut(DATA_PIN, CLOCK_PIN, bitOrder, pattern);
