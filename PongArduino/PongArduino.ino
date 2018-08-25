@@ -9,9 +9,12 @@
 #define CLOCK_PIN 12
 #define DATA_PIN 11
 
-//Ball and paddle speed are msecs. per update.
-#define BALL_SPEED 100
+//Ball and paddle speed are milliseconds per update.
+#define BALL_SPEED 150
 #define PADDLE_SPEED 50
+
+//When the ball is reset, wait this amount before moving the ball
+#define RESET_DELAY 1000
 
 //The length of the paddles.
 #define PADDLE_LEN 3
@@ -153,10 +156,10 @@ void resetScreen()
 {
 	pattern = 0;
 	applyShift();
-	for (uint8_t i = 0; i < 8; ++i)
-	{
-		digitalWrite(i + 2, HIGH);
-	}
+
+	//Set 2-10 to high
+	PORTD |= B11111100;
+	PORTB |= B00000111;
 }
 
 //Draws a const PROGMEM array.
@@ -208,7 +211,7 @@ void countDown()
 {
 	for (uint8_t i = 3; i > 0; --i)
 	{
-		const unsigned long before = millis();
+		const auto before = millis();
 		while (millis() - before < 1000)
 		{
 			drawArray(numberToArray(i));
@@ -231,27 +234,31 @@ void displayScore()
 
 	unsigned long before = millis();
 
-	while(millis() - before < 1000)
+	while(millis() - before < 500)
 	{
 		drawArray(numberToArray(score1));
 	}
 
 	before = millis();
 
-	while (millis() - before < 1000)
+	while (millis() - before < 300)
 	{
 		drawArray(Dash);
 	}
 
 	before = millis();
 
-	while (millis() - before < 1000)
+	while (millis() - before < 500)
 	{
 		drawArray(numberToArray(score2));
 	}
 
 	
 }
+
+unsigned long ballTimer;
+unsigned long paddleTimer;
+unsigned long resetTimer;
 
 //Resets the ball
 void resetBall()
@@ -260,6 +267,11 @@ void resetBall()
 	ballYPos = random(3, 5);
 	ballUp = ballYPos == 3;
 	ballRight = ballXPos == 3;
+
+	paddle1Pos = 2;
+	paddle2Pos = 2;
+
+	resetTimer = millis();
 }
 
 
@@ -288,7 +300,7 @@ void drawPaddle2()
 //Draws the ball.
 void drawBall()
 {
-	pattern |= (1 << ballXPos);
+	pattern = (1 << ballXPos);
 	digitalWrite(ballYPos + 2, LOW);
 }
 
@@ -368,27 +380,23 @@ void updatePaddles()
 		paddle1Pos--;
 }
 
-unsigned long ballTimer;
-unsigned long paddleTimer;
+
 
 // the setup function runs once when you press reset or power the board
 void setup() {
-	Serial.begin(9600);
-	pinMode(DATA_PIN, OUTPUT);
-	pinMode(CLOCK_PIN, OUTPUT);
-	pinMode(LATCH_PIN, OUTPUT);
+	//Set 2-13 to output
+	DDRD |= B11111100;
+	DDRB |= B00111111;
 
 	digitalWrite(LATCH_PIN, LOW);
 	shiftOut(DATA_PIN, CLOCK_PIN, MSBFIRST, 0);
 	digitalWrite(LATCH_PIN, HIGH);
 
-	for (uint8_t i = 0; i < 8; ++i)
-	{
-		pinMode(i + 2, OUTPUT);
-		digitalWrite(i + 2, HIGH);
-	}
+	resetScreen();
+
 	ballTimer = millis();
 	paddleTimer = ballTimer;
+	resetTimer = millis();
 
 	resetBall();
 	countDown();
@@ -412,16 +420,24 @@ void loop() {
 	drawBall();
 	applyShift();
 
-	if (millis() - ballTimer > BALL_SPEED)
-	{
-		updateBall();
-		ballTimer = millis();
-	}
 
 	if (millis() - paddleTimer > PADDLE_SPEED)
 	{
 		updatePaddles();
 		paddleTimer = millis();
 	}
+
+	if (millis() - resetTimer < RESET_DELAY)
+		return;
+
+		
+
+	if (millis() - ballTimer > BALL_SPEED)
+	{
+		updateBall();
+		ballTimer = millis();
+	}
+
+
 
 }
