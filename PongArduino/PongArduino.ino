@@ -213,6 +213,7 @@ void displayScore()
 		score2 = 0;
 
 		countDown();
+		return;
 	}
 
 	unsigned long before = millis();
