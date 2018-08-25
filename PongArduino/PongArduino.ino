@@ -198,6 +198,7 @@ const uint8_t* numberToArray(const uint8_t number)
 	case 7: return Seven;
 	case 8: return Eight;
 	case 9: return Nine;
+	case '-': return Dash;
 
 	default: return Cross; //Invalid
 	}
@@ -302,35 +303,6 @@ void drawBall()
 	digitalWrite(ballYPos, LOW);
 }
 
-//Flashes the screen. Currently not used.
-void flashScreen()
-{
-	resetBall();
-
-	for (uint8_t i = 0; i < 4; ++i)
-	{
-		pattern = 255;
-		applyShift();
-
-		for (uint8_t j = 0; j < 8; ++j)
-		{
-			digitalWrite(j, LOW);
-		}
-
-		delay(100);
-
-		pattern = 0;
-		applyShift();
-
-		for (uint8_t j = 0; j < 8; ++j)
-		{
-			digitalWrite(j, HIGH);
-		}
-
-		delay(100);
-	}
-
-}
 
 //Updates the ball (physics and score)
 void updateBall()
