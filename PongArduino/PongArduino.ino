@@ -21,114 +21,114 @@
 
 #pragma region
 
-const PROGMEM bool Dash[] = { 0, 0, 0, 0, 0, 0, 0, 0,
-							  0, 0, 0, 0, 0, 0, 0, 0,
-							  0, 0, 0, 0, 0, 0, 0, 0,
-							  0, 1, 1, 1, 1, 1, 1, 0,
-							  0, 1, 1, 1, 1, 1, 1, 0,
-							  0, 0, 0, 0, 0, 0, 0, 0,
-							  0, 0, 0, 0, 0, 0, 0, 0,
-							  0, 0, 0, 0, 0, 0, 0, 0 };
+const PROGMEM uint8_t Dash[] = { B00000000,
+								 B00000000,
+								 B00000000,
+								 B01111110,
+								 B01111110,
+								 B00000000,
+								 B00000000,
+								 B00000000 };
 
-const PROGMEM bool Zero[] = { 0, 0, 0, 0, 0, 0, 0, 0,
-							  0, 0, 0, 1, 1, 0, 0, 0,
-							  0, 0, 1, 0, 0, 1, 0, 0,
-							  0, 0, 1, 0, 0, 1, 0, 0,
-							  0, 0, 1, 0, 0, 1, 0, 0,
-							  0, 0, 1, 0, 0, 1, 0, 0,
-							  0, 0, 0, 1, 1, 0, 0, 0,
-							  0, 0, 0, 0, 0, 0, 0, 0 };
+const PROGMEM uint8_t Zero[] = { B00000000,
+								 B00011000,
+								 B00100100,
+								 B00100100,
+								 B00100100,
+								 B00100100,
+								 B00011000,
+								 B00000000 };
 
-const PROGMEM bool One[] = {  0, 0, 0, 0, 0, 0, 0, 0,
-							  0, 0, 0, 0, 1, 0, 0, 0,
-							  0, 0, 0, 1, 1, 0, 0, 0,
-							  0, 0, 0, 0, 1, 0, 0, 0,
-							  0, 0, 0, 0, 1, 0, 0, 0,
-							  0, 0, 0, 0, 1, 0, 0, 0,
-							  0, 0, 0, 1, 1, 1, 0, 0,
-							  0, 0, 0, 0, 0, 0, 0, 0 };
+const PROGMEM uint8_t One[] = { B00000000,
+								B00001000,
+								B00011000,
+								B00001000,
+								B00001000,
+								B00001000,
+								B00011100,
+								B00000000 };
 
-const PROGMEM bool Two[] = {  0, 0, 0, 0, 0, 0, 0, 0,
-							  0, 0, 0, 1, 1, 0, 0, 0,
-							  0, 0, 1, 0, 0, 1, 0, 0,
-							  0, 0, 0, 0, 0, 1, 0, 0,
-							  0, 0, 0, 0, 1, 0, 0, 0,
-							  0, 0, 0, 1, 0, 0, 0, 0,
-							  0, 0, 1, 1, 1, 1, 0, 0,
-							  0, 0, 0, 0, 0, 0, 0, 0 };
+const PROGMEM uint8_t Two[] = { B00000000,
+								B00011000,
+								B00100100,
+								B00000100,
+								B00001000,
+								B00010000,
+								B00111100,
+								B00000000 };
 
-const PROGMEM bool Three[] = {0, 0, 0, 0, 0, 0, 0, 0,
-							  0, 0, 1, 1, 1, 0, 0, 0,
-							  0, 0, 0, 0, 0, 1, 0, 0,
-							  0, 0, 0, 1, 1, 0, 0, 0,
-							  0, 0, 0, 0, 0, 1, 0, 0,
-							  0, 0, 0, 0, 0, 1, 0, 0,
-							  0, 0, 1, 1, 1, 0, 0, 0,
-							  0, 0, 0, 0, 0, 0, 0, 0 };
+const PROGMEM uint8_t Three[] = { B00000000,
+								  B00111000,
+								  B00000100,
+								  B00011000,
+								  B00000100,
+								  B00000100,
+								  B00111000,
+								  B00000000 };
 
-const PROGMEM bool Four[] = { 0, 0, 0, 0, 0, 0, 0, 0,
-							  0, 0, 1, 0, 0, 1, 0, 0,
-							  0, 0, 1, 0, 0, 1, 0, 0,
-							  0, 0, 1, 1, 1, 1, 0, 0,
-							  0, 0, 0, 0, 0, 1, 0, 0,
-							  0, 0, 0, 0, 0, 1, 0, 0,
-							  0, 0, 0, 0, 0, 1, 0, 0,
-							  0, 0, 0, 0, 0, 0, 0, 0 };
+const PROGMEM uint8_t Four[] = { B00000000,
+								 B00100100,
+								 B00100100,
+								 B00111100,
+								 B00000100,
+								 B00000100,
+								 B00000100,
+								 B00000000 };
 
-const PROGMEM bool Five[] = { 0, 0, 0, 0, 0, 0, 0, 0,
-							  0, 0, 1, 1, 1, 1, 0, 0,
-							  0, 0, 1, 0, 0, 0, 0, 0,
-							  0, 0, 0, 1, 1, 0, 0, 0,
-							  0, 0, 0, 0, 0, 1, 0, 0,
-							  0, 0, 0, 0, 0, 1, 0, 0,
-							  0, 0, 1, 1, 1, 0, 0, 0,
-							  0, 0, 0, 0, 0, 0, 0, 0 };
+const PROGMEM uint8_t Five[] = { B00000000,
+								 B00111100,
+								 B00100000,
+								 B00011000,
+								 B00000100,
+								 B00000100,
+								 B00111000,
+								 B00000000 };
 
-const PROGMEM bool Six[] = {  0, 0, 0, 0, 0, 0, 0, 0,
-							  0, 0, 0, 1, 1, 1, 0, 0,
-							  0, 0, 1, 0, 0, 0, 0, 0,
-							  0, 0, 1, 1, 1, 0, 0, 0,
-							  0, 0, 1, 0, 0, 1, 0, 0,
-							  0, 0, 1, 0, 0, 1, 0, 0,
-							  0, 0, 0, 1, 1, 0, 0, 0,
-							  0, 0, 0, 0, 0, 0, 0, 0 };
+const PROGMEM uint8_t Six[] = { B00000000,
+								B00011100,
+								B00100000,
+								B00111000,
+								B00100100,
+								B00100100,
+								B00011000,
+								B00000000 };
 
-const PROGMEM bool Seven[] = {0, 0, 0, 0, 0, 0, 0, 0,
-							  0, 0, 1, 1, 1, 1, 0, 0,
-							  0, 0, 0, 0, 0, 1, 0, 0,
-							  0, 0, 0, 0, 1, 0, 0, 0,
-							  0, 0, 0, 1, 0, 0, 0, 0,
-							  0, 0, 0, 1, 0, 0, 0, 0,
-							  0, 0, 0, 1, 0, 0, 0, 0,
-							  0, 0, 0, 0, 0, 0, 0, 0 };
+const PROGMEM uint8_t Seven[] = {B00000000,
+								B00111100,
+								B00000100,
+								B00001000,
+								B00010000,
+								B00010000,
+								B00010000,
+								B00000000 };
 
-const PROGMEM bool Eight[] = {0, 0, 0, 0, 0, 0, 0, 0,
-							  0, 0, 0, 1, 1, 0, 0, 0,
-							  0, 0, 1, 0, 0, 1, 0, 0,
-							  0, 0, 0, 1, 1, 0, 0, 0,
-							  0, 0, 1, 0, 0, 1, 0, 0,
-							  0, 0, 1, 0, 0, 1, 0, 0,
-							  0, 0, 0, 1, 1, 0, 0, 0,
-							  0, 0, 0, 0, 0, 0, 0, 0 };
+const PROGMEM uint8_t Eight[] = { B00000000,
+								  B00011000,
+								  B00100100,
+								  B00011000,
+								  B00100100,
+								  B00100100,
+								  B00011000,
+								  B00000000 };
 
-const PROGMEM bool Nine[] = { 0, 0, 0, 0, 0, 0, 0, 0,
-							  0, 0, 0, 1, 1, 0, 0, 0,
-							  0, 0, 1, 0, 0, 1, 0, 0,
-							  0, 0, 1, 0, 0, 1, 0, 0, 
-							  0, 0, 0, 1, 1, 0, 0, 0,
-							  0, 0, 0, 0, 0, 1, 0, 0,
-							  0, 0, 1, 1, 1, 0, 0, 0,
-							  0, 0, 0, 0, 0, 0, 0, 0 };
+const PROGMEM uint8_t Nine[] = { B00000000,
+								 B00011000,
+								 B00100100,
+								 B00100100, 
+								 B00011000,
+								 B00000100,
+								 B00111000,
+								 B00000000 };
 
 //This is used to debug certain stuff. If you see a cross on the led matrix; something is wrong.
-const PROGMEM bool Cross[] = {0, 0, 0, 0, 0, 0, 0, 0,
-							  0, 1, 0, 0, 0, 0, 1, 0,
-							  0, 0, 1, 0, 0, 1, 0, 0,
-							  0, 0, 0, 1, 1, 0, 0, 0,
-							  0, 0, 0, 1, 1, 0, 0, 0,
-							  0, 0, 1, 0, 0, 1, 0, 0,
-							  0, 1, 0, 0, 0, 0, 1, 0,
-							  0, 0, 0, 0, 0, 0, 0, 0 };
+const PROGMEM uint8_t Cross[] = { B00000000,
+								  B01000010,
+								  B00100100,
+								  B00011000,
+								  B00011000,
+								  B00100100,
+								  B01000010,
+								  B00000000 };
 
 #pragma endregion Bitmap definitions
 
@@ -151,42 +151,47 @@ void applyShift()
 	digitalWrite(LATCH_PIN, HIGH);
 }
 
+void applyShift(const uint8_t bitOrder)
+{
+	digitalWrite(LATCH_PIN, LOW);
+	shiftOut(DATA_PIN, CLOCK_PIN, bitOrder, pattern);
+	digitalWrite(LATCH_PIN, HIGH);
+}
+
 //Resets the screen.
 void resetScreen()
 {
 	pattern = 0;
 	applyShift();
 
-	//Set 2-10 to high
-	PORTD |= B11111100;
-	PORTB |= B00000111;
+	//Set 0-7 to high
+	PORTD |= B11111111;
 }
 
 //Draws a const PROGMEM array.
-void drawArray(const bool* array)
+void drawArray(const uint8_t* array)
 {
 	
 	for (uint8_t x = 0; x < 8; ++x)
 	{
 		resetScreen();
-		for (uint8_t y = 0; y < 8; ++y)
-		{
-			const bool b = pgm_read_byte_near(array + 8 * y + x );
 
-			//bool b = array[8 * y + x];
-			//Serial.print(b);
-			if (b)
-				digitalWrite(7 - y + 2, LOW);
-		}
+		const uint8_t b = pgm_read_byte_near(array + x);
+
+		pattern = b;
+		applyShift(LSBFIRST);
+
+		digitalWrite(7 - x, LOW);
+		
+
 		//Serial.println();
-		pattern = (1 << x);
-		applyShift();
+
 		delay(1);
 	}
 }
 
 //Int literal to led matrix array.
-const bool* numberToArray(const uint8_t number)
+const uint8_t* numberToArray(const uint8_t number)
 {
 	switch (number)
 	{
@@ -282,7 +287,7 @@ void drawPaddle1()
 
 	for (uint8_t i = 0; i < PADDLE_LEN; i++)
 	{
-		digitalWrite(i + paddle1Pos + 2, LOW);
+		digitalWrite(i + paddle1Pos, LOW);
 	}
 }
 
@@ -293,7 +298,7 @@ void drawPaddle2()
 
 	for (uint8_t i = 0; i < PADDLE_LEN; i++)
 	{
-		digitalWrite(i + paddle2Pos + 2, LOW);
+		digitalWrite(i + paddle2Pos, LOW);
 	}
 }
 
@@ -301,7 +306,7 @@ void drawPaddle2()
 void drawBall()
 {
 	pattern = (1 << ballXPos);
-	digitalWrite(ballYPos + 2, LOW);
+	digitalWrite(ballYPos, LOW);
 }
 
 //Flashes the screen. Currently not used.
@@ -316,7 +321,7 @@ void flashScreen()
 
 		for (uint8_t j = 0; j < 8; ++j)
 		{
-			digitalWrite(j + 2, LOW);
+			digitalWrite(j, LOW);
 		}
 
 		delay(100);
@@ -326,7 +331,7 @@ void flashScreen()
 
 		for (uint8_t j = 0; j < 8; ++j)
 		{
-			digitalWrite(j + 2, HIGH);
+			digitalWrite(j, HIGH);
 		}
 
 		delay(100);
@@ -384,8 +389,8 @@ void updatePaddles()
 
 // the setup function runs once when you press reset or power the board
 void setup() {
-	//Set 2-13 to output
-	DDRD |= B11111100;
+	//Set 0-13 to output
+	DDRD |= B11111111;
 	DDRB |= B00111111;
 
 	digitalWrite(LATCH_PIN, LOW);
