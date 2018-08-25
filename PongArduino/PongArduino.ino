@@ -22,6 +22,14 @@ uint8_t ballXPos = 4, ballYPos = 4;
 
 int pattern = 0;
 
+void resetBall()
+{
+	ballXPos = random(3, 5);
+	ballYPos = random(3, 5);
+	ballUp = ballYPos == 3;
+	ballRight = ballXPos == 3;
+}
+
 void applyShift()
 {
 	digitalWrite(LATCH_PIN, LOW);
@@ -67,10 +75,7 @@ void drawBall()
 
 void flashScreen()
 {
-	ballUp = false;
-	ballRight = false;
-	ballXPos = 4;
-	ballYPos = 4;
+	resetBall();
 
 	for (int i = 0; i < 4; ++i)
 	{
@@ -162,6 +167,8 @@ void setup() {
 	}
 	ballTimer = millis();
 	paddleTimer = ballTimer;
+
+	resetBall();
 }
 
 
