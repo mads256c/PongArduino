@@ -204,10 +204,9 @@ const uint8_t* numberToArray(const uint8_t number)
 	case 7: return Seven;
 	case 8: return Eight;
 	case 9: return Nine;
-	case '-': return Dash;
-
-	default: return Cross; //Invalid
 	}
+
+	__builtin_unreachable();
 
 }
 
