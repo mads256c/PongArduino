@@ -282,10 +282,9 @@ void resetBall()
 //Draws the first paddle.
 void drawPaddle1()
 {
-	for (uint8_t i = 0; i < PADDLE_LEN; i++)
-	{
-		digitalWrite(i + paddle1Pos, LOW);
-	}
+	//Set the bits paddle1Pos to paddle1Pos + PADDLE_LEN.
+	const uint8_t nbits = ~(0xFFu << (paddle1Pos + PADDLE_LEN - paddle1Pos));
+	PORTD &= ~(nbits << paddle1Pos); //Set the pins to low.
 
 	applyShift(1 << 0);
 }
@@ -293,10 +292,9 @@ void drawPaddle1()
 //Draws the second paddle.
 void drawPaddle2()
 {
-	for (uint8_t i = 0; i < PADDLE_LEN; i++)
-	{
-		digitalWrite(i + paddle2Pos, LOW);
-	}
+	//Set the bits paddle2Pos to paddle2Pos + PADDLE_LEN.
+	const uint8_t nbits = ~(0xFFu << (paddle2Pos + PADDLE_LEN - paddle2Pos));
+	PORTD &= ~(nbits << paddle2Pos); //Set the pins to low.
 
 	applyShift(1 << 7);
 }
@@ -325,9 +323,9 @@ void updateBall()
 	else if (ballXPos == 0)
 		ballRight = true;
 	//Check if the paddle is in the way. If it is bounce the ball, if its not give point to the other player.
-	if (!ballRight && ballXPos <= 1 && paddle1Pos <= ballYPos && paddle1Pos + PADDLE_LEN >= ballYPos) ballRight = true;
+	if (!ballRight && ballXPos <= 1 && paddle1Pos <= ballYPos && paddle1Pos + (PADDLE_LEN - 1) >= ballYPos) ballRight = true;
 	else if (ballXPos == 0) { score1++; displayScore(); resetBall(); return; }
-	if (ballRight && ballXPos >= 6 && paddle2Pos <= ballYPos && paddle2Pos + PADDLE_LEN >= ballYPos) ballRight = false;
+	if (ballRight && ballXPos >= 6 && paddle2Pos <= ballYPos && paddle2Pos + (PADDLE_LEN - 1) >= ballYPos) ballRight = false;
 	else if (ballXPos == 7) { score2++; displayScore(); resetBall(); return; }
 
 
