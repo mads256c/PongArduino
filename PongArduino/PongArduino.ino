@@ -130,6 +130,15 @@ const PROGMEM uint8_t Cross[] = { B00000000,
 								  B01000010,
 								  B00000000 };
 
+const PROGMEM uint8_t Filled[] = {255,
+								  255,
+								  255,
+								  255,
+								  255,
+								  255,
+								  255,
+								  255 };
+
 #pragma endregion Bitmap definitions
 
 uint8_t score1 = 0;
@@ -155,27 +164,28 @@ void resetScreen()
 	applyShift(0);
 
 	//Set 0-7 to high
-	PORTD |= B11111111;
+	PORTD |= B11111111; //PORTD controls digitalWrite for pins 0-7
 }
 
 //Draws a const PROGMEM array.
 void drawArray(const uint8_t* array)
 {
-	
+	resetScreen();
+
 	for (uint8_t x = 0; x < 8; ++x)
 	{
-		resetScreen();
+		const uint8_t b = pgm_read_byte_near(array + x); //Read the byte from the array stored in PROGMEM.
 
-		const uint8_t b = pgm_read_byte_near(array + x);
+		if (b == 0)
+			continue; //Skip so we have more time for the led that should be on. They will be brighter.
 
-		applyShift(b, LSBFIRST);
+		applyShift(b, LSBFIRST); //Send voltage to the leds.
 
-		digitalWrite(7 - x, LOW);
-		
+		digitalWrite(7 - x, LOW); //Set the column to low to turn on the right leds. 
 
-		//Serial.println();
+		delay(1); //Wait for the leds to turn on.
 
-		delay(1);
+		digitalWrite(7 - x, HIGH); //Set the column to high so we can move on to the next column.
 	}
 }
 
@@ -217,7 +227,6 @@ void countDown()
 //Displays the score.
 void displayScore()
 {
-
 	if (score1 > 9 || score2 > 9)
 	{
 		score1 = 0;
@@ -227,23 +236,23 @@ void displayScore()
 		return;
 	}
 
-	unsigned long before = millis();
+	unsigned long timer = millis();
 
-	while(millis() - before < 500)
+	while(millis() - timer < 500)
 	{
 		drawArray(numberToArray(score1));
 	}
 
-	before = millis();
+	timer = millis();
 
-	while (millis() - before < 300)
+	while (millis() - timer < 300)
 	{
 		drawArray(Dash);
 	}
 
-	before = millis();
+	timer = millis();
 
-	while (millis() - before < 500)
+	while (millis() - timer < 500)
 	{
 		drawArray(numberToArray(score2));
 	}
@@ -354,8 +363,8 @@ void updatePaddles()
 // the setup function runs once when you press reset or power the board
 void setup() {
 	//Set 0-13 to output
-	DDRD |= B11111111;
-	DDRB |= B00111111;
+	DDRD |= B11111111; // Controls pinMode for pins 0-7
+	DDRB |= B00111111; // Controls pinMode for pins 8-13 last two bits are unused.
 
 	applyShift(0, LSBFIRST);
 
@@ -367,6 +376,7 @@ void setup() {
 
 	resetBall();
 	countDown();
+
 }
 
 
