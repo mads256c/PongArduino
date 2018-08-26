@@ -141,10 +141,8 @@ uint8_t paddle2Pos = 0;
 bool ballUp = false, ballRight = false;
 uint8_t ballXPos = 4, ballYPos = 4;
 
-uint8_t pattern = 0;
-
 //Shifts out pattern.
-void applyShift(const uint8_t bitOrder = MSBFIRST)
+void applyShift(const uint8_t pattern, const uint8_t bitOrder = MSBFIRST)
 {
 	digitalWrite(LATCH_PIN, LOW);
 	shiftOut(DATA_PIN, CLOCK_PIN, bitOrder, pattern);
@@ -154,8 +152,7 @@ void applyShift(const uint8_t bitOrder = MSBFIRST)
 //Resets the screen.
 void resetScreen()
 {
-	pattern = 0;
-	applyShift();
+	applyShift(0);
 
 	//Set 0-7 to high
 	PORTD |= B11111111;
@@ -171,8 +168,7 @@ void drawArray(const uint8_t* array)
 
 		const uint8_t b = pgm_read_byte_near(array + x);
 
-		pattern = b;
-		applyShift(LSBFIRST);
+		applyShift(b, LSBFIRST);
 
 		digitalWrite(7 - x, LOW);
 		
@@ -277,30 +273,30 @@ void resetBall()
 //Draws the first paddle.
 void drawPaddle1()
 {
-	pattern = (1 << 0);
-
 	for (uint8_t i = 0; i < PADDLE_LEN; i++)
 	{
 		digitalWrite(i + paddle1Pos, LOW);
 	}
+
+	applyShift(1 << 0);
 }
 
 //Draws the second paddle.
 void drawPaddle2()
 {
-	pattern = (1 << 7);
-
 	for (uint8_t i = 0; i < PADDLE_LEN; i++)
 	{
 		digitalWrite(i + paddle2Pos, LOW);
 	}
+
+	applyShift(1 << 7);
 }
 
 //Draws the ball.
 void drawBall()
 {
-	pattern = (1 << ballXPos);
 	digitalWrite(ballYPos, LOW);
+	applyShift(1 << ballXPos);
 }
 
 
@@ -361,7 +357,7 @@ void setup() {
 	DDRD |= B11111111;
 	DDRB |= B00111111;
 
-	applyShift(LSBFIRST);
+	applyShift(0, LSBFIRST);
 
 	resetScreen();
 
@@ -381,15 +377,12 @@ void loop() {
 	delay(1);
 	resetScreen();
 	drawPaddle1();
-	applyShift();
 	delay(1);
 	resetScreen();
 	drawPaddle2();
-	applyShift();
 	delay(1);
 	resetScreen();
 	drawBall();
-	applyShift();
 
 
 	if (millis() - paddleTimer > PADDLE_SPEED)
