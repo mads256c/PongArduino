@@ -150,6 +150,10 @@ uint8_t paddle2Pos = 0;
 bool ballUp = false, ballRight = false;
 uint8_t ballXPos = 4, ballYPos = 4;
 
+unsigned long ballTimer;
+unsigned long paddleTimer;
+unsigned long resetTimer;
+
 //Shifts out pattern.
 void applyShift(const uint8_t pattern, const uint8_t bitOrder = MSBFIRST)
 {
@@ -259,10 +263,6 @@ void displayScore()
 	
 }
 
-unsigned long ballTimer;
-unsigned long paddleTimer;
-unsigned long resetTimer;
-
 //Resets the ball
 void resetBall()
 {
@@ -309,6 +309,12 @@ void drawBall()
 //Updates the ball (physics and score)
 void updateBall()
 {
+	//Check if the paddle is in the way. If it is bounce the ball, if its not give point to the other player.
+	if (!ballRight && ballXPos <= 1 && paddle1Pos <= ballYPos && paddle1Pos + (PADDLE_LEN - 1) >= ballYPos) ballRight = true;
+	else if (ballXPos == 0) { score1++; displayScore(); resetBall(); return; }
+	if (ballRight && ballXPos >= 6 && paddle2Pos <= ballYPos && paddle2Pos + (PADDLE_LEN - 1) >= ballYPos) ballRight = false;
+	else if (ballXPos == 7) { score2++; displayScore(); resetBall(); return; }
+
 	//Bounce the ball from the top
 	if (ballYPos == 7)
 		ballUp = false;
@@ -321,11 +327,6 @@ void updateBall()
 	//Bounce the ball from the left
 	else if (ballXPos == 0)
 		ballRight = true;
-	//Check if the paddle is in the way. If it is bounce the ball, if its not give point to the other player.
-	if (!ballRight && ballXPos <= 1 && paddle1Pos <= ballYPos && paddle1Pos + (PADDLE_LEN - 1) >= ballYPos) ballRight = true;
-	else if (ballXPos == 0) { score1++; displayScore(); resetBall(); return; }
-	if (ballRight && ballXPos >= 6 && paddle2Pos <= ballYPos && paddle2Pos + (PADDLE_LEN - 1) >= ballYPos) ballRight = false;
-	else if (ballXPos == 7) { score2++; displayScore(); resetBall(); return; }
 
 
 	//Update the balls position based on the direction.
