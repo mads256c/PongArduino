@@ -183,11 +183,11 @@ void drawArray(const uint8_t* array)
 		if (b == 0)
 			continue; //Skip so we have more time for the led that should be on. They will be brighter.
 
-		applyShift(b, LSBFIRST); //Send voltage to the leds.
+		applyShift(b, LSBFIRST); //Send voltage to the led's.
 
-		digitalWrite(7 - x, LOW); //Set the column to low to turn on the right leds. 
+		digitalWrite(7 - x, LOW); //Set the column to low to turn on the right led's. 
 
-		delay(1); //Wait for the leds to turn on.
+		delay(1); //Wait for the led's to turn on.
 
 		digitalWrite(7 - x, HIGH); //Set the column to high so we can move on to the next column.
 	}
@@ -259,8 +259,6 @@ void displayScore()
 	{
 		drawArray(numberToArray(score2));
 	}
-
-	
 }
 
 //Resets the ball
@@ -282,8 +280,8 @@ void resetBall()
 void drawPaddle1()
 {
 	//Set the bits paddle1Pos to paddle1Pos + PADDLE_LEN.
-	const uint8_t nbits = ~(0xFFu << (paddle1Pos + PADDLE_LEN - paddle1Pos));
-	PORTD &= ~(nbits << paddle1Pos); //Set the pins to low.
+	const uint8_t bits = ~(0xFFu << (paddle1Pos + PADDLE_LEN - paddle1Pos));
+	PORTD &= ~(bits << paddle1Pos); //Set the pins to low.
 
 	applyShift(1 << 0);
 }
@@ -292,8 +290,8 @@ void drawPaddle1()
 void drawPaddle2()
 {
 	//Set the bits paddle2Pos to paddle2Pos + PADDLE_LEN.
-	const uint8_t nbits = ~(0xFFu << (paddle2Pos + PADDLE_LEN - paddle2Pos));
-	PORTD &= ~(nbits << paddle2Pos); //Set the pins to low.
+	const uint8_t bits = ~(0xFFu << (paddle2Pos + PADDLE_LEN - paddle2Pos));
+	PORTD &= ~(bits << paddle2Pos); //Set the pins to low.
 
 	applyShift(1 << 7);
 }
@@ -357,7 +355,6 @@ void updatePaddles()
 }
 
 
-
 // the setup function runs once when you press reset or power the board
 void setup() {
 	//Set 0-13 to output
@@ -374,7 +371,6 @@ void setup() {
 
 	resetBall();
 	countDown();
-
 }
 
 
@@ -391,7 +387,6 @@ void loop() {
 	delay(1);
 	resetScreen();
 	drawBall();
-
 
 	if (millis() - paddleTimer > PADDLE_SPEED)
 	{
